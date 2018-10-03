@@ -1,7 +1,7 @@
 (function () {
     const form = document.querySelector('#search-form');
     const searchField = document.querySelector('#search-keyword');
-    let searchedForText = 'hippos';
+    let searchedForText = 'hsslslsls';
     const responseContainer = document.querySelector('#response-container');
 
     // form.addEventListener('submit', function (e) {
@@ -31,9 +31,15 @@
     function addArticles() {
         let htmlContent = '';
         const data = JSON.parse(this.responseText);
-        htmlContent = '<ul>' + data.response.docs.map(doc => `<li><a href="${doc.web_url}">${doc.headline.main}</a>
-        <p>${doc.snippet}</p>
-        </li>`).join(' ') + '</ul>';
+        if (data.response
+          && data.response.docs
+          && data.response.docs.length > 1) {
+            htmlContent = '<ul>' + data.response.docs.map(doc => `<li><a href="${doc.web_url}">${doc.headline.main}</a>
+            <p>${doc.snippet}</p>
+            </li>`).join(' ') + '</ul>';
+        } else {
+            htmlContent = '<div>No article available</div>';
+        }
         responseContainer.insertAdjacentHTML('beforeend', htmlContent);
     }
     //Define XHR object
